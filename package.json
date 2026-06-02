@@ -1,0 +1,46 @@
+{
+  "name": "playwright_ttacart_project",
+  "version": "1.0.0",
+  "description": "E2E Automation Testing Framework using Playwright & TypeScript",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:debug": "playwright test --debug",
+    "test:e2e": "playwright test src/tests/",
+    "test:p0": "playwright test --grep @p0",
+    "test:p1": "playwright test --grep @p1",
+    "test:report": "playwright show-report",
+    "test:report-ci": "playwright test --reporter=html,json",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "build": "tsc",
+    "clean": "powershell -Command \"Remove-Item -Recurse -Force test-results, playwright-report -ErrorAction SilentlyContinue\""
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "typescript",
+    "testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
+    "@playwright/test": "^1.60.0",
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^25.9.1",
+    "allure-playwright": "^3.9.0",
+    "csv-parse": "^6.2.1",
+    "dotenv": "^17.4.2",
+    "typescript": "^6.0.3",
+    "winston": "^3.19.0",
+    "xlsx": "^0.18.5",
+    "yaml": "^2.9.0"
+  }
+}
