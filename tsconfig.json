@@ -12,6 +12,7 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "noEmit": true,
     "resolveJsonModule": true,
     "strict": true,
     "noImplicitAny": true,
@@ -36,7 +37,7 @@
       "@/*": ["src/*"],
       "@pages/*": ["src/pages/*"],
       "@fixtures/*": ["src/fixtures/*"],
-      "@utils/*": ["src/util/*"],
+      "@utils/*": ["src/utils/*"],
       "@testdata/*": ["src/testdata/*"],
       "@api/*": ["src/api/*"],
       "@config/*": ["src/config/*"]

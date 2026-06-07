@@ -1,13 +1,12 @@
 # Advance Playwright Framework (1.x)
 
-> Production-grade Playwright + TypeScript automation framework built by [Pramod Dutta](https://thetestingacademy.com) for **The Testing Academy**.
 
 [![Playwright](https://img.shields.io/badge/Playwright-1.60-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Node](https://img.shields.io/badge/Node-18+-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
 [![License](https://img.shields.io/badge/License-ISC-blue.svg)]()
 
-A complete, opinionated, batteries-included Playwright framework with **Page Object Model**, **fixtures**, **data-driven testing**, **multi-env config**, **Winston logging**, a **custom HTML reporter**, **Allure**, and **CI-ready scripts**.
+A complete, Playwright framework with **Page Object Model**, **fixtures**, **data-driven testing**, **multi-env config**, **Winston logging**, a **custom HTML reporter**, **Allure**, and **CI-ready scripts**.
 
 ---
 
@@ -166,7 +165,7 @@ npm run test:allure       # Allure HTML
 | `test:debug` | Playwright Inspector |
 | `test:e2e` | Tag `@e2e` |
 | `test:p0` / `test:p1` | Priority-tagged runs |
-| `test:lor` | Tag `@lor` (Lord of the Rings test suite 😉) |
+| `test:p1` | Tag `p1` |
 | `test:report` | Open Playwright HTML report |
 | `test:report:ci` | Serve report on `0.0.0.0:9323` for CI |
 | `test:allure` | Generate + open Allure HTML |
