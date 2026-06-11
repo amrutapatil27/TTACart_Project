@@ -1,0 +1,5 @@
+2026-06-10 14:45:45 [info] [e2e-checkout] Step 1: logging in as standard_user
+2026-06-10 14:45:46 [info] [LoginPage] loginAs standard_user
+2026-06-10 14:45:46 [info] [e2e-checkout] Step 2: navigating to the inventory page
+2026-06-10 14:45:47 [info] [e2e-checkout] Step 3: adding item "test-allthethings-tshirt-red" to the cart
+2026-06-10 14:45:47 [info] [e2e-checkout] Step 4: opening the cart and verifying one row

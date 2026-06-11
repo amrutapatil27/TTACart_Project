@@ -63,4 +63,8 @@ export class CheckOutStepTwoPage extends BasePage {
         await this.el.click(this.buttonCancel);
         await this.page.waitForLoadState('domcontentloaded');
     }
+
+    async finish(): Promise<void> {
+        await this.clickFinish();
+    }
 }

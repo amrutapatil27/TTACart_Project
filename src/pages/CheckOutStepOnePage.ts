@@ -1,5 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { CheckoutCustomer } from '@utils/DataGenerator';
 
 export class CheckOutStepOnePage extends BasePage {
     static readonly PATH = '/playwright/ttacart/checkout-step-one.html';
@@ -30,6 +31,12 @@ export class CheckOutStepOnePage extends BasePage {
         await expect(this.title).toHaveText('Checkout: Your Information');
     }
 
+    async fillGuest(customer: CheckoutCustomer): Promise<void> {
+        await this.el.fill(this.firstname, customer.firstName);
+        await this.el.fill(this.lastname, customer.lastName);
+        await this.el.fill(this.postalcode, customer.postalCode);
+    }
+
     async fillFirstName(firstName: string): Promise<void> {
         await this.el.fill(this.firstname, firstName);
     }
@@ -42,9 +49,13 @@ export class CheckOutStepOnePage extends BasePage {
         await this.el.fill(this.postalcode, postalCode);
     }
 
-    async clickContinue(): Promise<void> {
+    async continue(): Promise<void> {
         await this.el.click(this.buttonContinue);
         await this.page.waitForLoadState('domcontentloaded');
+    }
+
+    async clickContinue(): Promise<void> {
+        await this.continue();
     }
 
     async clickCancel(): Promise<void> {

@@ -1,88 +1,78 @@
 import { defineConfig, devices } from '@playwright/test';
-import path from 'path';
-import dotenv from 'dotenv';
-import { CustomTTAReporter } from './src/utils/CustomReporters';
+import * as dotenv from 'dotenv';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+dotenv.config(); 
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
+function resolveBaseURL(): string {
+  if (process.env.BASE_URL) return process.env.BASE_URL;
+  const env = (process.env.TTA_ENV || 'qa').toLowerCase();
+  switch (env) {
+    case 'dev':
+    case 'local':
+      return process.env.DEV_BASE_URL || 'http://localhost:3000';
+    case 'stg':
+    case 'stage':
+    case 'staging':
+      return process.env.STG_BASE_URL || 'https://stage.thetestingacademy.com';
+    case 'prod':
+    case 'production':
+      return process.env.PROD_BASE_URL || 'https://app.thetestingacademy.com';
+    case 'qa':
+    default:
+      return process.env.QA_BASE_URL || 'https://app.thetestingacademy.com';
+  }
+}
+const isCI = !!process.env.CI;
+
 export default defineConfig({
   testDir: './src/tests',
-  /* Run tests in files in parallel */
+  timeout: 60_000,
+  expect: { timeout: 10_000 },
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : 4,
-  /* Timeout for each test */
-  timeout: 30 * 1000,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 4 : undefined,
   reporter: [
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['./src/utils/CustomReporter.ts'],
+    ['html', { outputFolder: 'playwright-report' }],
     ['json', { outputFile: 'test-results/results.json' }],
-    [CustomTTAReporter as any] as any,
+    ['allure-playwright', {
+      resultsDir: 'allure-results',
+      reportName: 'TTACart Automation Report',
+      environmentInfo: {
+        Environment: process.env.TTA_ENV || 'qa',
+        BaseURL: resolveBaseURL(),
+        Node: process.version,
+        OS: process.platform,
+        CI: String(isCI),
+      },
+        categories: [
+        { name: 'Assertion failures', matchedStatuses: ['failed'] },
+        { name: 'Broken tests / errors', matchedStatuses: ['broken'] },
+        {
+          name: 'Timeouts',
+          matchedStatuses: ['broken', 'failed'],
+          messageRegex: '.*Timeout.*',
+        },
+      ],
+    }
   ],
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+    ['list'],
+  ],
   use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: process.env.BASE_URL || 'https://www.saucedemo.com',
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    baseURL: resolveBaseURL(),
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'on',
+    trace: 'on-first-retry',
+    actionTimeout: 15_000,
+    navigationTimeout: 30_000,
   },
-
-  /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+    //{ name: 'mobile-chrome', use: { ...devices['Pixel 5'] } },
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });
+
+

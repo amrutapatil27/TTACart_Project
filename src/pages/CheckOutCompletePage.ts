@@ -39,4 +39,9 @@ export class CheckOutCompletePage extends BasePage {
         await this.el.click(this.backHome);
         await this.page.waitForLoadState('domcontentloaded');
     }
+
+    async assertOrderComplete(): Promise<void> {
+        await expect(this.title).toHaveText('Checkout: Complete!');
+        await expect(this.completeHeader).toBeVisible();
+    }
 }

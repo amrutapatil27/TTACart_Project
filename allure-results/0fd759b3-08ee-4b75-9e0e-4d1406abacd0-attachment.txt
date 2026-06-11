@@ -1,0 +1,3 @@
+2026-06-10 14:49:14 [info] [e2e-checkout] Step 1: logging in as standard_user
+2026-06-10 14:49:14 [info] [LoginPage] loginAs standard_user
+2026-06-10 14:49:15 [info] [e2e-checkout] Step 2: navigating to the inventory page

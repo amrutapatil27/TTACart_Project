@@ -18,16 +18,12 @@ export class LoginPage extends BasePage {
     private readonly usernameInput: Locator;
     private readonly passwordInput: Locator;
     private readonly loginButton: Locator;
-    private readonly errorBox: Locator;
-    private readonly loginCredentialsHint: Locator;
 
     constructor(page: Page) {
         super(page, 'LoginPage');
         this.usernameInput = page.locator('[data-test="username"]');
         this.passwordInput = page.locator('[data-test="password"]');
         this.loginButton = page.locator('[data-test="login-button"]');
-        this.errorBox = page.locator('[data-test="error"]');
-        this.loginCredentialsHint = page.locator('[data-test="login-credentials"]');
     }
 
     async open(): Promise<void> {
