@@ -33,7 +33,7 @@ export default defineConfig({
   retries: isCI ? 2 : 0,
   workers: isCI ? 4 : undefined,
   reporter: [
-    ['./src/utils/CustomReporter.ts'],
+   // ['./src/utils/CustomReporter.ts'],
     ['html', { outputFolder: 'playwright-report' }],
     ['json', { outputFile: 'test-results/results.json' }],
     ['allure-playwright', {
